@@ -1,0 +1,32 @@
+name: Publish to NPM
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'packages/*/package.json'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: oven-sh/setup-bun@v1
+      
+      - name: Detect changes
+        id: changes
+        run: |
+          git diff --name-only HEAD~1 | grep "package.json" | cut -d/ -f2 | uniq > changed.txt
+          
+      - name: Publish changed packages
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          npm config set //registry.npmjs.org/:_authToken $NODE_AUTH_TOKEN
+          while read package; do
+            cd packages/$package
+            # Auto bump patch version
+            npm version patch --no-git-tag-version
+            npm publish --access public || true
+            cd ../..
+          done < changed.txt
