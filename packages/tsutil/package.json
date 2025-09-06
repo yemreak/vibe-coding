@@ -1,0 +1,28 @@
+{
+  "name": "@yemreak/tsutil",
+  "version": "1.0.0",
+  "description": "TypeScript code analysis tools (AST-based)",
+  "bin": {
+    "tsutil": "./index.ts"
+  },
+  "files": ["index.ts", "README.md"],
+  "scripts": {
+    "postinstall": "bun i ts-morph"
+  },
+  "keywords": ["typescript", "ast", "analysis", "refactor", "cli", "vibe-coding"],
+  "author": "yemreak",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yemreak/tools.git",
+    "directory": "packages/tsutil"
+  },
+  "homepage": "https://github.com/yemreak/tools/tree/main/packages/tsutil",
+  "bugs": "https://github.com/yemreak/tools/issues",
+  "engines": {
+    "bun": ">=1.0.0"
+  },
+  "dependencies": {
+    "ts-morph": "^24.0.0"
+  }
+}
