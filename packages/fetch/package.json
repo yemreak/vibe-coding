@@ -3,7 +3,7 @@
   "version": "1.0.3",
   "description": "Web scraper with cache (Chrome headless + pandoc)",
   "bin": {
-    "yfetch": "./index.ts"
+    "fetch": "./index.ts"
   },
   "files": ["index.ts", "README.md"],
   "scripts": {
