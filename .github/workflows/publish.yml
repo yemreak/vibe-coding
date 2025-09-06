@@ -13,6 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 2  # Get previous commit too
       - uses: oven-sh/setup-bun@v1
       
       - name: Setup NPM
@@ -23,7 +25,7 @@ jobs:
         run: |
           echo "Event: ${{ github.event_name }}"
           echo "Changed files:"
-          git diff --name-only HEAD~1 || echo "No previous commit"
+          git diff --name-only HEAD~1 2>/dev/null || git ls-files packages/
           
           # Manual trigger = publish all
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
@@ -39,7 +41,7 @@ jobs:
           else
             echo "Auto mode - publishing changed packages"
             # Auto trigger = only changed
-            git diff --name-only HEAD~1 | grep "packages/" | cut -d/ -f2 | sort -u | while read package; do
+            git diff --name-only HEAD~1 2>/dev/null | grep "packages/" | cut -d/ -f2 | sort -u | while read package; do
               echo "Publishing package: $package"
               if [ -d "packages/$package" ]; then
                 cd packages/$package
