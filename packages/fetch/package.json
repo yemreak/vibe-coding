@@ -1,10 +1,19 @@
 {
   "name": "@yemreak/fetch",
-  "version": "1.0.0",
+  "version": "1.0.1",
+  "description": "Web scraper with cache (Chrome headless + pandoc)",
   "bin": {
-    "y-fetch": "./index.ts"
+    "yfetch": "./index.ts"
   },
-  "files": ["index.ts"],
+  "files": ["index.ts", "README.md"],
+  "keywords": ["fetch", "scraper", "chrome", "headless", "cli"],
   "author": "yemreak",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yemreak/tools.git",
+    "directory": "packages/fetch"
+  },
+  "homepage": "https://github.com/yemreak/tools/tree/main/packages/fetch",
+  "bugs": "https://github.com/yemreak/tools/issues"
 }
