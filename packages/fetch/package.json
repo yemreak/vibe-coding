@@ -9,7 +9,7 @@
   "scripts": {
     "postinstall": "which pandoc || echo 'Warning: pandoc not found. Install with: brew install pandoc'"
   },
-  "keywords": ["fetch", "scraper", "chrome", "headless", "cli"],
+  "keywords": ["fetch", "scraper", "chrome", "headless", "cli", "vibe-coding"],
   "author": "yemreak",
   "license": "MIT",
   "repository": {
