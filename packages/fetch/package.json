@@ -1,0 +1,10 @@
+{
+  "name": "@yemreak/fetch",
+  "version": "1.0.0",
+  "bin": {
+    "y:fetch": "./index.ts"
+  },
+  "files": ["index.ts"],
+  "author": "yemreak",
+  "license": "MIT"
+}
