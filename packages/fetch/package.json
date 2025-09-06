@@ -14,11 +14,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yemreak/tools.git",
+    "url": "https://github.com/yemreak/vibe-coding.git",
     "directory": "packages/fetch"
   },
-  "homepage": "https://github.com/yemreak/tools/tree/main/packages/fetch",
-  "bugs": "https://github.com/yemreak/tools/issues",
+  "homepage": "https://github.com/yemreak/vibe-coding/tree/main/packages/fetch",
+  "bugs": "https://github.com/yemreak/vibe-coding/issues",
   "engines": {
     "bun": ">=1.0.0"
   },
