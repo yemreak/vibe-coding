@@ -2,13 +2,18 @@
 
 ## Install
 
-```bash
-# npm (recommended)
-npm install -g @yemreak/fetch
-
-# bun
+```
+# bun (recommended)
 bun add -g @yemreak/fetch
+```
 
+```bash
+# npm 
+npm install -g @yemreak/fetch
+```
+
+	
+```
 # yarn
 yarn global add @yemreak/fetch
 ```
