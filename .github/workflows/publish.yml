@@ -45,7 +45,12 @@ jobs:
               echo "Publishing package: $package"
               if [ -d "packages/$package" ]; then
                 cd packages/$package
-                npm version patch --no-git-tag-version
+                # Get current version from NPM
+                NPM_VERSION=$(npm view $(node -p "require('./package.json').name") version 2>/dev/null || echo "0.0.0")
+                LOCAL_VERSION=$(node -p "require('./package.json').version")
+                if [ "$NPM_VERSION" = "$LOCAL_VERSION" ]; then
+                  npm version patch --no-git-tag-version
+                fi
                 npm publish --access public || echo "Already published or error"
                 cd ../..
               fi
