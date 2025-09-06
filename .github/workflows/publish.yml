@@ -21,18 +21,26 @@ jobs:
           
       - name: Publish packages
         run: |
+          echo "Event: ${{ github.event_name }}"
+          echo "Changed files:"
+          git diff --name-only HEAD~1 || echo "No previous commit"
+          
           # Manual trigger = publish all
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "Manual mode - publishing all packages"
             for dir in packages/*/; do
               if [ -f "$dir/package.json" ]; then
+                echo "Publishing $dir"
                 cd $dir
                 npm publish --access public || echo "Already published or error"
                 cd ../..
               fi
             done
           else
+            echo "Auto mode - publishing changed packages"
             # Auto trigger = only changed
-            git diff --name-only HEAD~1 2>/dev/null | grep "packages/" | cut -d/ -f2 | sort -u | while read package; do
+            git diff --name-only HEAD~1 | grep "packages/" | cut -d/ -f2 | sort -u | while read package; do
+              echo "Publishing package: $package"
               if [ -d "packages/$package" ]; then
                 cd packages/$package
                 npm version patch --no-git-tag-version
