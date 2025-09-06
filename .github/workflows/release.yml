@@ -9,6 +9,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     
     steps:
       - uses: actions/checkout@v3
@@ -25,8 +27,11 @@ jobs:
       
       - name: Create Release
         uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
         with:
+          tag_name: ${{ github.ref_name || format('manual-{0}', github.run_number) }}
+          name: Release ${{ github.ref_name || format('manual-{0}', github.run_number) }}
+          draft: false
+          prerelease: false
           files: |
             packages/fetch/yfetch-*
             packages/fetch/*.exe
