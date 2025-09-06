@@ -1,7 +1,16 @@
 # tools
 
+## Install
+
 ```bash
+# npm (recommended)
+npm install -g @yemreak/fetch
+
+# bun
 bun add -g @yemreak/fetch
+
+# yarn
+yarn global add @yemreak/fetch
 ```
 
 ## Tools
