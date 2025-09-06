@@ -6,6 +6,9 @@
     "yfetch": "./index.ts"
   },
   "files": ["index.ts", "README.md"],
+  "scripts": {
+    "postinstall": "which pandoc || echo 'Warning: pandoc not found. Install with: brew install pandoc'"
+  },
   "keywords": ["fetch", "scraper", "chrome", "headless", "cli"],
   "author": "yemreak",
   "license": "MIT",
@@ -15,5 +18,12 @@
     "directory": "packages/fetch"
   },
   "homepage": "https://github.com/yemreak/tools/tree/main/packages/fetch",
-  "bugs": "https://github.com/yemreak/tools/issues"
+  "bugs": "https://github.com/yemreak/tools/issues",
+  "engines": {
+    "bun": ">=1.0.0"
+  },
+  "requirements": {
+    "pandoc": "brew install pandoc",
+    "chrome": "Built-in on macOS"
+  }
 }
