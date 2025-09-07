@@ -1,0 +1,32 @@
+{
+	"name": "@yemreak/gc",
+	"version": "1.0.0",
+	"description": "Git commits with AI-generated messages",
+	"bin": {
+		"gc": "./index.ts"
+	},
+	"files": ["index.ts", "README.md"],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/yemreak/vibe-coding.git",
+		"directory": "packages/gc"
+	},
+	"engines": {
+		"bun": ">=1.0.0"
+	},
+	"dependencies": {
+		"@anthropic-ai/claude-code": "^1.0.0"
+	},
+	"keywords": [
+		"git",
+		"commit",
+		"ai",
+		"claude",
+		"vibe-coding"
+	],
+	"author": "yemreak",
+	"license": "MIT",
+	"publishConfig": {
+		"access": "public"
+	}
+}
