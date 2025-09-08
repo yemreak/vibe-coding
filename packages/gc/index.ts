@@ -169,7 +169,9 @@ MANDATORY RULES:
 
 		const commitMessage = `${commitData.title}
 
-${commitData.changes.map((change: string) => `- ${change}`).join("\n")}`
+${commitData.changes.map((change: string) => `- ${change}`).join("\n")}
+
+Co-Authored-By: Claude <noreply@anthropic.com>`
 
 		const commitProc = Bun.spawn(["git", "commit", "-m", commitMessage], {
 			stdout: "pipe",
