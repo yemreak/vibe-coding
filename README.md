@@ -1,4 +1,4 @@
-# tools
+# vibe-coding
 
 ## Tools
 
