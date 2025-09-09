@@ -1,17 +1,23 @@
 {
   "name": "@yemreak/claude-extract",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Extract user messages from Claude chat exports",
   "bin": {
     "claude-extract": "./index.ts"
   },
-  "files": ["index.ts", "extract.ts", "README.md"],
-  "keywords": ["claude", "extract", "chat", "cli", "vibe-coding"],
+  "files": ["index.ts", "README.md"],
+  "keywords": [
+    "claude",
+    "extract",
+    "chat",
+    "cli",
+    "vibe-coding"
+  ],
   "author": "yemreak",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yemreak/vibe-coding.git",
+    "url": "git+https://github.com/yemreak/vibe-coding.git",
     "directory": "packages/claude-extract"
   },
   "homepage": "https://github.com/yemreak/vibe-coding/tree/main/packages/claude-extract",

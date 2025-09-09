@@ -132,41 +132,6 @@ readme-packages-check:
 		fi; \
 	done
 
-# Publish changed packages
-publish:
-	@echo "Checking for changes..."
-	@for dir in $$(fd package.json packages/ -x dirname {}); do \
-		name=$$(basename $$dir); \
-		pkg=$$(jq -r '.name' $$dir/package.json); \
-		version=$$(jq -r '.version' $$dir/package.json); \
-		published=$$(npm view $$pkg version 2>/dev/null || echo "0.0.0"); \
-		if [ "$$version" != "$$published" ]; then \
-			echo "Publishing $$pkg@$$version (was $$published)..."; \
-			(cd $$dir && npm publish); \
-		else \
-			echo "$$pkg@$$version is up to date"; \
-		fi \
-	done
-
-# Force publish all
-publish-all:
-	@for dir in $$(fd package.json packages/ -x dirname {}); do \
-		pkg=$$(jq -r '.name' $$dir/package.json); \
-		version=$$(jq -r '.version' $$dir/package.json); \
-		echo "Publishing $$pkg@$$version..."; \
-		(cd $$dir && npm publish --force); \
-	done
-
-# Version bump
-bump:
-	@for dir in $$(fd package.json packages/ -x dirname {}); do \
-		pkg=$$(jq -r '.name' $$dir/package.json); \
-		old=$$(jq -r '.version' $$dir/package.json); \
-		new=$$(echo $$old | awk -F. '{print $$1"."$$2"."$$3+1}'); \
-		jq ".version = \"$$new\"" $$dir/package.json > $$dir/package.json.tmp && \
-		mv $$dir/package.json.tmp $$dir/package.json; \
-		echo "$$pkg: $$old → $$new"; \
-	done
 
 # Clean
 clean:
