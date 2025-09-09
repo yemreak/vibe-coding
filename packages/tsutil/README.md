@@ -1,51 +1,46 @@
-# @yemreak/tsutil
+# tsutil
 
-TypeScript code analysis tools with AST manipulation
+TypeScript code analysis tools (AST-based)
 
-## Why
-When you need to understand TypeScript code structure, refactor symbols, or check types
+## Installation
 
-## Install
 ```bash
+npm install -g @yemreak/tsutil
 bun add -g @yemreak/tsutil
+
+# Uninstall
+npm uninstall -g @yemreak/tsutil
+bun remove -g @yemreak/tsutil
 ```
 
 ## Usage
 
-### Outline
-```bash
-tsutil outline src/auth.ts
-tsutil outline --exports src/types.ts  
-fd "*.ts" | tsutil outline -
+```
+tsutil - TypeScript code analysis tools
+
+Usage:
+  tsutil outline <file>                    Show file outline (all declarations) 
+  tsutil outline --exports <file>          Show only exported declarations 
+  tsutil outline -                         Read file list from stdin 
+  tsutil read <function> [-d depth]        Read function with dependencies 
+  tsutil rename <old> <new>                Rename symbol across all files 
+  tsutil move <old_path> <new_path>        Move file and update imports 
+  tsutil check [file]                      Type check files (stdin pipe supported)
+
+Output:
+  type:name:startLine:endLine:visibility (func, var, class, interface, type, enum)
+
+Examples:
+  tsutil outline lib.ts                  # Single file
+  tsutil outline --exports lib.ts        # Only exports
+  fd "*.ts" | tsutil outline -           # Multiple files from stdin
+  tsutil outline lib.ts | grep ^func:   # Only functions
+  tsutil outline lib.ts | grep :export$ # Only exported items
 ```
 
-### Read Functions
-```bash
-tsutil read login
-tsutil read fetchUser -d 2 
-```
+## License
 
-### Refactor
-```bash
-tsutil rename oldName newName
-tsutil move src/old.ts lib/new.ts
-```
+Apache-2.0
 
-### Type Check
-```bash
-tsutil check
-tsutil check src/main.ts
-fd -e ts | tsutil check
-```
-
-## Pipeline Examples
-```bash
-# Count all functions
-fd -e ts | tsutil outline - | grep ^func: | wc -l
-
-# Find type errors
-tsutil check | grep TS2345
-
-# Extract function code
-tsutil read main | grep "^code:" | cut -d: -f3-
-```
+---
+Generated: 2025-09-09 15:17:26

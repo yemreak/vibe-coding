@@ -1,31 +1,33 @@
-# @yemreak/gc
+# gc
 
-Git commits with AI-generated messages using Claude Code CLI
+Git commits with AI-generated messages
 
-## Why
+## Installation
 
-Clear commit messages in seconds, not minutes
-
-## Install
 ```bash
+npm install -g @yemreak/gc
 bun add -g @yemreak/gc
+
+# Uninstall
+npm uninstall -g @yemreak/gc
+bun remove -g @yemreak/gc
 ```
 
 ## Usage
-```bash
-git add .
-gc
+
+```
+gc - Git commit with AI-generated message
+
+Usage:
+  gc                    Create commit with AI message
+
+Examples:
+  gc                    # Create commit with AI message
 ```
 
-## Environment
-Requires Claude Code CLI installed:
-```bash
-# Check if installed
-which claude
+## License
 
-# Expected location
-~/.local/bin/claude
-```
+Apache-2.0
 
-## Source
-[index.ts](index.ts) - Ask your AI to explain it
+---
+Generated: 2025-09-09 15:17:25

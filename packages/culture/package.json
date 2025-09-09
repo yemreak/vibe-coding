@@ -21,7 +21,7 @@
     "zero-documentation"
   ],
   "author": "Yunus Emre Ak",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "engines": {
     "bun": ">=1.0.0"
   }
