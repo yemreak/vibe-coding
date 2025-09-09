@@ -1,189 +1,104 @@
 #!/usr/bin/env bun
-
-import { execSync } from "child_process"
-
-/**
- * @example
- * extractUserMessages("> User message\n⏺ Response\n> Another") → "User message\n\nAnother"
- */
-function extractUserMessages(input: string): string {
-	const lines = input.split('\n')
-	const result: string[] = []
-	let inUserMessage = false
-	let currentMessage = ''
-
-	for (const line of lines) {
-		if (line.startsWith('>')) {
-			if (inUserMessage && currentMessage) {
-				result.push(currentMessage.trim())
-			}
-			inUserMessage = true
-			currentMessage = line.substring(2).trim()
-		} else if (line.startsWith('⏺')) {
-			if (inUserMessage && currentMessage) {
-				result.push(currentMessage.trim())
-				inUserMessage = false
-				currentMessage = ''
-			}
-		} else if (inUserMessage && line.startsWith('  ')) {
-			currentMessage += '\n' + line.substring(2)
-		} else if (inUserMessage && line.trim() === '') {
-			currentMessage += '\n'
-		} else if (inUserMessage) {
-			result.push(currentMessage.trim())
-			inUserMessage = false
-			currentMessage = ''
-		}
-	}
-
-	if (inUserMessage && currentMessage) {
-		result.push(currentMessage.trim())
-	}
-
-	return result.join('\n\n')
-}
+import { extractUserMessages } from "./extract"
 
 function showUsage() {
-	console.log(`claude-extract - Extract user messages from Claude chat
+	console.log(`claude-extract - Extract messages from Claude chat
 
 Usage:
-  claude-extract           Extract all messages from clipboard
-  claude-extract N         Extract Nth message (1-indexed)
-  claude-extract -N        Extract Nth message from end
-  claude-extract N:M       Extract messages N to M
-  claude-extract :N        Extract first N messages
-  claude-extract -N:       Extract last N messages
+  claude-extract           Extract all messages
+  claude-extract N         Extract Nth message
+  claude-extract -N        Extract Nth from end
+  claude-extract N:M       Extract range N to M
+  claude-extract :N        Extract first N
+  claude-extract -N:       Extract last N
   
 Experience:
-  1. In Claude Code: /export → Copy to clipboard
-  2. Terminal: claude-extract
-  3. Result: User messages in clipboard
+  /export → claude-extract → User (>) assistant (⏺) in clipboard
   
 Pipeline:
-  pbpaste | claude-extract | pbcopy
-  claude-extract 3 && pbpaste | wc -l`)
+  claude-extract && pbpaste | wc -l
+  claude-extract 3 && pbpaste > messages.txt`)
 }
 
 async function main() {
 	const args = process.argv.slice(2)
-
 	if (args.includes("--help") || args.includes("-h")) {
-		showUsage()
-		process.exit(0)
+		showUsage(); process.exit(0)
 	}
 
-	// Parse number/range argument
-	let messageCount: number | null = null
-	let isFromEnd = false
-	let rangeStart: number | null = null
-	let rangeEnd: number | null = null
+	let count: number | null = null, fromEnd = false, start: number | null = null, end: number | null = null
 
 	if (args[0]) {
 		const arg = args[0]
 		if (arg.includes(':')) {
-			// Range format: 1:3, :3, 2:, 1:5
-			const [startStr, endStr] = arg.split(':')
-			
-			if (startStr) {
-				const start = parseInt(startStr)
-				if (!isNaN(start)) rangeStart = start - 1 // Convert to 0-based
-			}
-			
-			if (endStr) {
-				const end = parseInt(endStr)
-				if (!isNaN(end)) rangeEnd = end // End is exclusive like Python
-			}
+			const [s, e] = arg.split(':')
+			if (s) { const n = parseInt(s); if (!isNaN(n)) start = n - 1 }
+			if (e) { const n = parseInt(e); if (!isNaN(n)) end = n }
 		} else if (arg.startsWith('-') && arg.length > 1) {
-			// -5 format (from end)
-			const num = parseInt(arg.slice(1))
-			if (!isNaN(num)) {
-				messageCount = num
-				isFromEnd = true
-			}
+			const n = parseInt(arg.slice(1))
+			if (!isNaN(n)) { count = n; fromEnd = true }
 		} else if (!isNaN(parseInt(arg))) {
-			// 3 format (single message index)
-			messageCount = parseInt(arg)
-			isFromEnd = false
+			count = parseInt(arg); fromEnd = false
 		}
 	}
 
-	// Always read from clipboard
 	let input = ''
-	try {
-		input = execSync('pbpaste', { encoding: 'utf8' })
-	} catch (error) {
-		console.error("× Failed to read from clipboard")
+	for (let i = 0; i < 10; i++) {
+		if (i > 0) await Bun.sleep(200)
+		const proc = Bun.spawn(['pbpaste'])
+		input = await new Response(proc.stdout).text()
+		if (input.includes('>') || input.includes('⏺') || input.includes('⎿')) break
+	}
+
+	if (!input.trim() || (!input.includes('>') && !input.includes('⏺'))) {
+		console.error("× No valid conversation data found")
 		process.exit(1)
 	}
 
-	if (!input.trim()) {
-		console.error("× No input data found")
-		process.exit(1)
-	}
-
-	// Extract and filter messages
-	const rawResult = extractUserMessages(input)
-	if (!rawResult) {
-		console.error("× No user messages found")
-		process.exit(1)
-	}
+	const raw = extractUserMessages(input)
+	if (!raw) { console.error("× No messages found"); process.exit(1) }
 	
-	const allMessages = rawResult.split('\n\n').filter(msg => msg.trim())
+	const header = [
+		"# Previous Conversation Context",
+		"",
+		"This conversation history is from previous interactions.",
+		"Human (>) and assistant (⏺) messages are preserved.",
+		"Continue with the same behavior pattern from this context.",
+		"",
+		"---",
+		""
+	].join('\n')
 	
-	// Apply filtering logic
-	let filteredMessages = allMessages
+	const all = raw.split('\n\n').filter(m => m.trim())
 	
-	if (rangeStart !== null || rangeEnd !== null) {
-		// Range format: Python slice behavior
-		if (rangeStart === null && rangeEnd !== null) {
-			// :N format (head -N behavior)
-			filteredMessages = allMessages.slice(0, rangeEnd)
-		} else if (rangeStart !== null && rangeEnd === null) {
-			// N: format  
-			if (rangeStart < 0) {
-				// -N: format (tail -N behavior)
-				filteredMessages = allMessages.slice(rangeStart)
-			} else {
-				// N: format (from N to end)
-				filteredMessages = allMessages.slice(rangeStart)
-			}
+	let filtered = all
+	
+	if (start !== null || end !== null) {
+		if (start === null && end !== null) {
+			filtered = all.slice(0, end)
+		} else if (start !== null && end === null) {
+			filtered = all.slice(start < 0 ? start : start)
 		} else {
-			// N:M format (range)
-			const start = rangeStart ?? 0
-			const end = rangeEnd ?? allMessages.length
-			filteredMessages = allMessages.slice(start, end)
+			filtered = all.slice(start ?? 0, end ?? all.length)
 		}
-	} else if (messageCount !== null) {
-		if (isFromEnd) {
-			// -N format (single message from end)
-			const index = allMessages.length + messageCount - 1 // -1 becomes last, -2 becomes second-to-last
-			if (index >= 0 && index < allMessages.length) {
-				const message = allMessages[index]
-				filteredMessages = message ? [message] : []
-			} else {
-				filteredMessages = []
-			}
+	} else if (count !== null) {
+		if (fromEnd) {
+			const i = all.length + count - 1
+			filtered = (i >= 0 && i < all.length && all[i]) ? [all[i]] : []
 		} else {
-			// N format (single message from start)
-			const index = messageCount - 1 // Convert to 0-based
-			if (index >= 0 && index < allMessages.length) {
-				const message = allMessages[index]
-				filteredMessages = message ? [message] : []
-			} else {
-				filteredMessages = []
-			}
+			const i = count - 1
+			filtered = (i >= 0 && i < all.length && all[i]) ? [all[i]] : []
 		}
 	}
 	
-	// Output to clipboard
-	const result = filteredMessages.join('\n\n')
-	try {
-		execSync('pbcopy', { input: result })
-		console.log('✓ Copied to clipboard')
-	} catch (error) {
-		console.error('× Failed to write to clipboard')
-		process.exit(1)
-	}
+	const msgs = filtered.join('\n\n')
+	const result = msgs ? `${header}${msgs}` : ''
+	
+	const proc = Bun.spawn(['pbcopy'], { stdin: 'pipe' })
+	proc.stdin?.write(result)
+	proc.stdin?.end()
+	await proc.exited
+	console.log('✓ Copied to clipboard')
 }
 
 if (import.meta.main) {
