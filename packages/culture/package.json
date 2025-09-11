@@ -1,6 +1,6 @@
 {
   "name": "@yemreak/culture",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Git culture discovery tool - learn patterns from code history",
   "type": "module",
   "bin": {

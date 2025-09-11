@@ -18,6 +18,32 @@ list:
 	@echo "Available packages:"
 	@fd package.json packages/ -x dirname {} | xargs -I {} basename {} | sort
 
+# Publish single package
+publish:
+	@if [ -z "$(PKG)" ]; then \
+		echo "Usage: make publish PKG=culture"; \
+		echo "Available packages:"; \
+		make list; \
+		exit 1; \
+	fi
+	@if [ ! -d "packages/$(PKG)" ]; then \
+		echo "Package $(PKG) not found"; \
+		exit 1; \
+	fi
+	@echo "Publishing @yemreak/$(PKG)..."
+	@cd packages/$(PKG) && npm publish --access public
+	@echo "✓ Published @yemreak/$(PKG)"
+
+# Publish all packages
+publish-all:
+	@echo "Publishing all packages..."
+	@for dir in $$(fd package.json packages/ -x dirname {}); do \
+		name=$$(basename "$$dir"); \
+		echo "Publishing @yemreak/$$name..."; \
+		(cd "$$dir" && npm publish --access public) || true; \
+	done
+	@echo "✓ All packages published"
+
 # Smart README generation (updates only between markers)
 readme:
 	@echo "Updating README.md dynamic content..."
