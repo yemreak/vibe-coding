@@ -6,11 +6,6 @@ Git culture discovery tool - learn patterns from code history
 
 ```bash
 npm install -g @yemreak/culture
-bun add -g @yemreak/culture
-
-# Uninstall
-npm uninstall -g @yemreak/culture
-bun remove -g @yemreak/culture
 ```
 
 ## Usage
@@ -37,10 +32,3 @@ What you'll see:
   - Culture DNA (recurring approaches)
 
 ```
-
-## License
-
-Apache-2.0
-
----
-Generated: 2025-09-12 02:30:55

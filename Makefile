@@ -1,4 +1,4 @@
-.PHONY: help readme publish publish-all list clean test commit
+.PHONY: help readme
 
 # Default
 help:
@@ -6,43 +6,6 @@ help:
 	@echo ""
 	@echo "Commands:"
 	@echo "  make readme       - Generate README from packages"
-	@echo "  make publish      - Publish changed packages"
-	@echo "  make publish-all  - Publish all packages"
-	@echo "  make list         - List all packages"
-	@echo "  make clean        - Remove node_modules"
-	@echo "  make test         - Test all tools"
-	@echo "  make commit       - Smart commit with learned patterns"
-
-# List packages
-list:
-	@echo "Available packages:"
-	@fd package.json packages/ -x dirname {} | xargs -I {} basename {} | sort
-
-# Publish single package
-publish:
-	@if [ -z "$(PKG)" ]; then \
-		echo "Usage: make publish PKG=culture"; \
-		echo "Available packages:"; \
-		make list; \
-		exit 1; \
-	fi
-	@if [ ! -d "packages/$(PKG)" ]; then \
-		echo "Package $(PKG) not found"; \
-		exit 1; \
-	fi
-	@echo "Publishing @yemreak/$(PKG)..."
-	@cd packages/$(PKG) && npm publish --access public
-	@echo "✓ Published @yemreak/$(PKG)"
-
-# Publish all packages
-publish-all:
-	@echo "Publishing all packages..."
-	@for dir in $$(fd package.json packages/ -x dirname {}); do \
-		name=$$(basename "$$dir"); \
-		echo "Publishing @yemreak/$$name..."; \
-		(cd "$$dir" && npm publish --access public) || true; \
-	done
-	@echo "✓ All packages published"
 
 # Smart README generation (updates only between markers)
 readme:
@@ -62,31 +25,6 @@ readme-update-dynamic:
 	@# Add marker and dynamic content
 	@echo "<!-- Auto-generated -->" >> README.tmp
 	@echo "" >> README.tmp
-	@echo "## AI Usage" >> README.tmp
-	@echo "" >> README.tmp
-	@echo "These tools are designed for AI agents. Share this repository with your AI and they can:" >> README.tmp
-	@echo "- Understand tool usage via \`--help\` output" >> README.tmp
-	@echo "- Install tools on your system" >> README.tmp
-	@echo "- Execute commands in your workflow" >> README.tmp
-	@echo "" >> README.tmp
-	@echo "**For AI agents:** Each tool has detailed README. Use \`toolname --help\` for usage." >> README.tmp
-	@echo "" >> README.tmp
-	@echo "## ⚠️ Active Development Notice" >> README.tmp
-	@echo "" >> README.tmp
-	@echo "**These packages are under active development** and may receive frequent updates with breaking changes." >> README.tmp
-	@echo "" >> README.tmp
-	@echo "**Recommendation:** If you find a version that works for your use case, pin it to avoid unexpected changes:" >> README.tmp
-	@echo "" >> README.tmp
-	@echo '```bash' >> README.tmp
-	@echo "# Pin to specific version instead of latest" >> README.tmp
-	@echo "npm install -g @yemreak/toolname@1.2.3" >> README.tmp
-	@echo "" >> README.tmp
-	@echo "# Check current version" >> README.tmp
-	@echo "npm list -g @yemreak/toolname" >> README.tmp
-	@echo '```' >> README.tmp
-	@echo "" >> README.tmp
-	@echo "I follow semantic versioning, but core functionality may evolve rapidly during this phase." >> README.tmp
-	@echo "" >> README.tmp
 	@echo "## Tools" >> README.tmp
 	@echo "" >> README.tmp
 	@echo "| Tool | Package | Description |" >> README.tmp
@@ -99,14 +37,6 @@ readme-update-dynamic:
 		echo "| [\`$$name\`](packages/$$name) | \`$$pkg\` | $$desc |" >> README.tmp; \
 	done
 	@echo "" >> README.tmp
-	@echo "## Development" >> README.tmp
-	@echo "" >> README.tmp
-	@echo '```bash' >> README.tmp
-	@echo 'make readme    # Smart README generation' >> README.tmp
-	@echo 'make publish   # Publish packages' >> README.tmp
-	@echo 'make test      # Test all tools' >> README.tmp
-	@echo '```' >> README.tmp
-	@echo "" >> README.tmp
 	@echo "---" >> README.tmp
 	@echo "Generated: $$(date '+%Y-%m-%d %H:%M:%S')" >> README.tmp
 	@# Replace README.md with the new version
@@ -117,7 +47,7 @@ readme-update-dynamic:
 readme-packages-check:
 	@for dir in $$(fd package.json packages/ -x dirname {}); do \
 		name=$$(basename "$$dir"); \
-		if [ ! -f "$$dir/README.md" ] || [ "$$dir/package.json" -nt "$$dir/README.md" ] || [ "$$dir/index.ts" -nt "$$dir/README.md" ]; then \
+		if [ ! -f "$$dir/README.md" ] || [ "$$dir/package.json" -nt "$$dir/README.md" ] || [ "$$dir/index.ts" -nt "$$dir/README.md" ] || [ "$$dir/index.js" -nt "$$dir/README.md" ]; then \
 			echo "Updating README for $$name..."; \
 			pkg=$$(jq -r '.name' "$$dir/package.json"); \
 			desc=$$(jq -r '.description' "$$dir/package.json"); \
@@ -129,11 +59,6 @@ readme-packages-check:
 			echo "" >> "$$dir/README.md"; \
 			echo '```bash' >> "$$dir/README.md"; \
 			echo "npm install -g $$pkg" >> "$$dir/README.md"; \
-			echo "bun add -g $$pkg" >> "$$dir/README.md"; \
-			echo "" >> "$$dir/README.md"; \
-			echo "# Uninstall" >> "$$dir/README.md"; \
-			echo "npm uninstall -g $$pkg" >> "$$dir/README.md"; \
-			echo "bun remove -g $$pkg" >> "$$dir/README.md"; \
 			echo '```' >> "$$dir/README.md"; \
 			echo "" >> "$$dir/README.md"; \
 			echo "## Usage" >> "$$dir/README.md"; \
@@ -145,82 +70,7 @@ readme-packages-check:
 				(cd "$$dir" && timeout 5s node ./index.js -h 2>/dev/null | head -20) >> "$$dir/README.md" || true; \
 			fi; \
 			echo '```' >> "$$dir/README.md"; \
-			echo "" >> "$$dir/README.md"; \
-			echo "## License" >> "$$dir/README.md"; \
-			echo "" >> "$$dir/README.md"; \
-			echo "Apache-2.0" >> "$$dir/README.md"; \
-			echo "" >> "$$dir/README.md"; \
-			echo "---" >> "$$dir/README.md"; \
-			echo "Generated: $$(date '+%Y-%m-%d %H:%M:%S')" >> "$$dir/README.md"; \
 		else \
 			echo "README for $$name is up to date"; \
 		fi; \
-	done
-
-
-# Clean
-clean:
-	@fd node_modules . -t d -x rm -rf {}
-	@echo "Cleaned node_modules"
-
-# Test tools
-test:
-	@echo "Testing tools..."
-	@for dir in $$(fd package.json packages/ -x dirname {}); do \
-		name=$$(basename $$dir); \
-		echo "Testing $$name..."; \
-		if [ -f "$$dir/index.ts" ]; then \
-			(cd $$dir && bun run ./index.ts -h) || true; \
-		elif [ -f "$$dir/index.js" ]; then \
-			(cd $$dir && node ./index.js -h) || true; \
-		fi; \
-		echo ""; \
-	done
-
-# Commit protocol (information only)
-commit:
-	@echo "════════════════════════════════════════"
-	@echo "COMMIT PROTOCOL"
-	@echo "════════════════════════════════════════"
-	@echo "1. Git status check:"
-	@git status --short
-	@echo ""
-	@echo "2. Recent learned commits:"
-	@echo "────────────────────────────────────────"
-	@for i in 0 1 2 3 4; do \
-		git log --grep="^learned:" --skip=$$i -n 1 --format="%B" 2>/dev/null | head -n 6; \
-		echo "────────────────────────────────────────"; \
-	done
-	@echo ""
-	@echo "3. Changes:"
-	@git diff --cached --stat
-	@echo ""
-	@echo "════════════════════════════════════════"
-	@echo "REMINDER:"
-	@echo "- Focus on actions (add, remove, fix, update)"
-	@echo "- What did you learn? (patterns, not tool details)"
-	@echo "- What is the goal? (attention reduction, speed, etc)"
-	@echo "════════════════════════════════════════"
-	@echo ""
-	@echo "Manual commit template:"
-	@echo "git commit -m 'learned: [title]"
-	@echo ""
-	@echo "- [learning 1]"
-	@echo "- [learning 2]"
-	@echo "- [learning 3]"
-	@echo ""
-	@echo "Co-Authored-By: Claude <noreply@anthropic.com>'"
-
-# Test tools
-test:
-	@echo "Testing tools..."
-	@for dir in $$(fd package.json packages/ -x dirname {}); do \
-		name=$$(basename "$$dir"); \
-		echo "Testing $$name..."; \
-		if [ -f "$$dir/index.ts" ]; then \
-			(cd "$$dir" && bun run ./index.ts -h) || true; \
-		elif [ -f "$$dir/index.js" ]; then \
-			(cd "$$dir" && node ./index.js -h) || true; \
-		fi; \
-		echo ""; \
 	done
