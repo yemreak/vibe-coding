@@ -18,79 +18,74 @@ list:
 	@echo "Available packages:"
 	@fd package.json packages/ -x dirname {} | xargs -I {} basename {} | sort
 
-# Smart README generation (contextual updates)
+# Smart README generation (updates only between markers)
 readme:
-	@echo "Checking for changes..."
-	@# Check if core README needs update (new/removed packages)
-	@current_packages=$$(fd package.json packages/ -x dirname {} | xargs -I {} basename {} | sort | tr '\n' ' '); \
-	if [ -f README.md ]; then \
-		readme_packages=$$(grep -o 'packages/[^)]*' README.md 2>/dev/null | sed 's/packages\///' | sort | tr '\n' ' ' || echo ""); \
-		if [ "$$current_packages" != "$$readme_packages" ]; then \
-			echo "Package list changed - regenerating core README"; \
-			$(MAKE) readme-core; \
-		else \
-			echo "Package list unchanged - core README up to date"; \
-		fi; \
-	else \
-		echo "No README found - generating core README"; \
-		$(MAKE) readme-core; \
+	@echo "Updating README.md dynamic content..."
+	@if [ ! -f README.md ]; then \
+		echo "Error: README.md not found. Please create it with static content first."; \
+		exit 1; \
 	fi
+	@$(MAKE) readme-update-dynamic
 	@# Always check package READMEs for updates
 	@$(MAKE) readme-packages-check
 
-# Generate core README (table format, newest first)
-readme-core:
-	@echo "# vibe-coding" > README.md
-	@echo "" >> README.md
-	@echo "Tool collection for vibe coding workflow" >> README.md
-	@echo "" >> README.md
-	@echo "## AI Usage" >> README.md
-	@echo "" >> README.md
-	@echo "These tools are designed for AI agents. Share this repository with your AI and they can:" >> README.md
-	@echo "- Understand tool usage via \`--help\` output" >> README.md
-	@echo "- Install tools on your system" >> README.md
-	@echo "- Execute commands in your workflow" >> README.md
-	@echo "" >> README.md
-	@echo "**For AI agents:** Each tool has detailed README. Use \`toolname --help\` for usage." >> README.md
-	@echo "" >> README.md
-	@echo "## ⚠️ Active Development Notice" >> README.md
-	@echo "" >> README.md
-	@echo "**These packages are under active development** and may receive frequent updates with breaking changes." >> README.md
-	@echo "" >> README.md
-	@echo "**Recommendation:** If you find a version that works for your use case, pin it to avoid unexpected changes:" >> README.md
-	@echo "" >> README.md
-	@echo '```bash' >> README.md
-	@echo "# Pin to specific version instead of latest" >> README.md
-	@echo "npm install -g @yemreak/toolname@1.2.3" >> README.md
-	@echo "" >> README.md
-	@echo "# Check current version" >> README.md
-	@echo "npm list -g @yemreak/toolname" >> README.md
-	@echo '```' >> README.md
-	@echo "" >> README.md
-	@echo "I follow semantic versioning, but core functionality may evolve rapidly during this phase." >> README.md
-	@echo "" >> README.md
-	@echo "## Tools" >> README.md
-	@echo "" >> README.md
-	@echo "| Tool | Package | Description |" >> README.md
-	@echo "|------|---------|-------------|" >> README.md
+# Update dynamic content between markers
+readme-update-dynamic:
+	@# Create temporary file with content before marker
+	@awk '/<!-- Auto-generated -->/{ exit } { print }' README.md > README.tmp
+	@# Add marker and dynamic content
+	@echo "<!-- Auto-generated -->" >> README.tmp
+	@echo "" >> README.tmp
+	@echo "## AI Usage" >> README.tmp
+	@echo "" >> README.tmp
+	@echo "These tools are designed for AI agents. Share this repository with your AI and they can:" >> README.tmp
+	@echo "- Understand tool usage via \`--help\` output" >> README.tmp
+	@echo "- Install tools on your system" >> README.tmp
+	@echo "- Execute commands in your workflow" >> README.tmp
+	@echo "" >> README.tmp
+	@echo "**For AI agents:** Each tool has detailed README. Use \`toolname --help\` for usage." >> README.tmp
+	@echo "" >> README.tmp
+	@echo "## ⚠️ Active Development Notice" >> README.tmp
+	@echo "" >> README.tmp
+	@echo "**These packages are under active development** and may receive frequent updates with breaking changes." >> README.tmp
+	@echo "" >> README.tmp
+	@echo "**Recommendation:** If you find a version that works for your use case, pin it to avoid unexpected changes:" >> README.tmp
+	@echo "" >> README.tmp
+	@echo '```bash' >> README.tmp
+	@echo "# Pin to specific version instead of latest" >> README.tmp
+	@echo "npm install -g @yemreak/toolname@1.2.3" >> README.tmp
+	@echo "" >> README.tmp
+	@echo "# Check current version" >> README.tmp
+	@echo "npm list -g @yemreak/toolname" >> README.tmp
+	@echo '```' >> README.tmp
+	@echo "" >> README.tmp
+	@echo "I follow semantic versioning, but core functionality may evolve rapidly during this phase." >> README.tmp
+	@echo "" >> README.tmp
+	@echo "## Tools" >> README.tmp
+	@echo "" >> README.tmp
+	@echo "| Tool | Package | Description |" >> README.tmp
+	@echo "|------|---------|-------------|" >> README.tmp
 	@# Sort by creation time (newest first), then by name
 	@for dir in $$(fd package.json packages/ -x dirname {} | xargs -I {} stat -f "%B %N" {} | sort -rn | cut -d' ' -f2-); do \
 		name=$$(basename "$$dir"); \
 		pkg=$$(jq -r '.name' "$$dir/package.json"); \
 		desc=$$(jq -r '.description' "$$dir/package.json"); \
-		echo "| [\`$$name\`](packages/$$name) | \`$$pkg\` | $$desc |" >> README.md; \
+		echo "| [\`$$name\`](packages/$$name) | \`$$pkg\` | $$desc |" >> README.tmp; \
 	done
-	@echo "" >> README.md
-	@echo "## Development" >> README.md
-	@echo "" >> README.md
-	@echo '```bash' >> README.md
-	@echo 'make readme    # Smart README generation' >> README.md
-	@echo 'make publish   # Publish packages' >> README.md
-	@echo 'make test      # Test all tools' >> README.md
-	@echo '```' >> README.md
-	@echo "" >> README.md
-	@echo "---" >> README.md
-	@echo "Generated: $$(date '+%Y-%m-%d %H:%M:%S')" >> README.md
+	@echo "" >> README.tmp
+	@echo "## Development" >> README.tmp
+	@echo "" >> README.tmp
+	@echo '```bash' >> README.tmp
+	@echo 'make readme    # Smart README generation' >> README.tmp
+	@echo 'make publish   # Publish packages' >> README.tmp
+	@echo 'make test      # Test all tools' >> README.tmp
+	@echo '```' >> README.tmp
+	@echo "" >> README.tmp
+	@echo "---" >> README.tmp
+	@echo "Generated: $$(date '+%Y-%m-%d %H:%M:%S')" >> README.tmp
+	@# Replace README.md with the new version
+	@mv README.tmp README.md
+	@echo "README.md updated successfully"
 
 # Check and update package READMEs only if needed
 readme-packages-check:

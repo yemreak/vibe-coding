@@ -2,6 +2,10 @@
 
 Tool collection for vibe coding workflow
 
+> Do not reinvent the wheel. I'm reinventing for you. 😅
+
+<!-- Auto-generated -->
+
 ## AI Usage
 
 These tools are designed for AI agents. Share this repository with your AI and they can:
@@ -46,4 +50,4 @@ make test      # Test all tools
 ```
 
 ---
-Generated: 2025-09-09 15:19:50
+Generated: 2025-09-11 12:11:27
