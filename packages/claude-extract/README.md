@@ -6,11 +6,6 @@ Extract user messages from Claude chat exports
 
 ```bash
 npm install -g @yemreak/claude-extract
-bun add -g @yemreak/claude-extract
-
-# Uninstall
-npm uninstall -g @yemreak/claude-extract
-bun remove -g @yemreak/claude-extract
 ```
 
 ## Usage
@@ -34,7 +29,7 @@ Workflow:
 
 ## License
 
-Apache-2.0
+Apache-2.0 ~ Yunus Emre Ak - yemreak
 
 ---
-Generated: 2025-09-11 12:10:36
+Generated: 2025-09-12 02:45:50

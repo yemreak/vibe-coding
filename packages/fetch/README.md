@@ -6,11 +6,6 @@ Web scraper with cache (Chrome headless + pandoc)
 
 ```bash
 npm install -g @yemreak/fetch
-bun add -g @yemreak/fetch
-
-# Uninstall
-npm uninstall -g @yemreak/fetch
-bun remove -g @yemreak/fetch
 ```
 
 ## Usage
@@ -36,7 +31,7 @@ Cache:
 
 ## License
 
-Apache-2.0
+Apache-2.0 ~ Yunus Emre Ak - yemreak
 
 ---
-Generated: 2025-09-09 15:17:25
+Generated: 2025-09-12 02:45:50

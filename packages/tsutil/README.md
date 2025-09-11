@@ -6,11 +6,6 @@ TypeScript code analysis tools (AST-based)
 
 ```bash
 npm install -g @yemreak/tsutil
-bun add -g @yemreak/tsutil
-
-# Uninstall
-npm uninstall -g @yemreak/tsutil
-bun remove -g @yemreak/tsutil
 ```
 
 ## Usage
@@ -40,7 +35,7 @@ Examples:
 
 ## License
 
-Apache-2.0
+Apache-2.0 ~ Yunus Emre Ak - yemreak
 
 ---
-Generated: 2025-09-09 15:17:26
+Generated: 2025-09-12 02:45:50

@@ -32,3 +32,10 @@ What you'll see:
   - Culture DNA (recurring approaches)
 
 ```
+
+## License
+
+Apache-2.0 ~ Yunus Emre Ak - yemreak
+
+---
+Generated: 2025-09-12 02:45:50

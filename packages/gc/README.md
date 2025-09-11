@@ -6,11 +6,6 @@ Git commits with AI-generated messages
 
 ```bash
 npm install -g @yemreak/gc
-bun add -g @yemreak/gc
-
-# Uninstall
-npm uninstall -g @yemreak/gc
-bun remove -g @yemreak/gc
 ```
 
 ## Usage
@@ -27,7 +22,7 @@ Examples:
 
 ## License
 
-Apache-2.0
+Apache-2.0 ~ Yunus Emre Ak - yemreak
 
 ---
-Generated: 2025-09-09 15:17:25
+Generated: 2025-09-12 02:45:49

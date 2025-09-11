@@ -17,4 +17,4 @@ Tool collection for vibe coding workflow
 | [`fetch`](packages/fetch) | `@yemreak/fetch` | Web scraper with cache (Chrome headless + pandoc) |
 
 ---
-Generated: 2025-09-12 02:40:17
+Generated: 2025-09-12 02:45:49
