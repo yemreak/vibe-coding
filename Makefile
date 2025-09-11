@@ -113,7 +113,11 @@ readme-packages-check:
 			echo "## Usage" >> "$$dir/README.md"; \
 			echo "" >> "$$dir/README.md"; \
 			echo '```' >> "$$dir/README.md"; \
-			(cd "$$dir" && timeout 5s bun run ./index.ts -h 2>/dev/null | head -20) >> "$$dir/README.md" || true; \
+			if [ -f "$$dir/index.ts" ]; then \
+				(cd "$$dir" && timeout 5s bun run ./index.ts -h 2>/dev/null | head -20) >> "$$dir/README.md" || true; \
+			elif [ -f "$$dir/index.js" ]; then \
+				(cd "$$dir" && timeout 5s node ./index.js -h 2>/dev/null | head -20) >> "$$dir/README.md" || true; \
+			fi; \
 			echo '```' >> "$$dir/README.md"; \
 			echo "" >> "$$dir/README.md"; \
 			echo "## License" >> "$$dir/README.md"; \
@@ -139,7 +143,11 @@ test:
 	@for dir in $$(fd package.json packages/ -x dirname {}); do \
 		name=$$(basename $$dir); \
 		echo "Testing $$name..."; \
-		(cd $$dir && bun run ./index.ts -h) || true; \
+		if [ -f "$$dir/index.ts" ]; then \
+			(cd $$dir && bun run ./index.ts -h) || true; \
+		elif [ -f "$$dir/index.js" ]; then \
+			(cd $$dir && node ./index.js -h) || true; \
+		fi; \
 		echo ""; \
 	done
 
@@ -183,6 +191,10 @@ test:
 	@for dir in $$(fd package.json packages/ -x dirname {}); do \
 		name=$$(basename "$$dir"); \
 		echo "Testing $$name..."; \
-		(cd "$$dir" && bun run ./index.ts -h) || true; \
+		if [ -f "$$dir/index.ts" ]; then \
+			(cd "$$dir" && bun run ./index.ts -h) || true; \
+		elif [ -f "$$dir/index.js" ]; then \
+			(cd "$$dir" && node ./index.js -h) || true; \
+		fi; \
 		echo ""; \
 	done

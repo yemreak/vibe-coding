@@ -1,11 +1,12 @@
 {
   "name": "@yemreak/culture",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Git culture discovery tool - learn patterns from code history",
+  "type": "module",
   "bin": {
-    "culture": "./index.ts"
+    "culture": "./index.js"
   },
-  "files": ["index.ts", "README.md"],
+  "files": ["index.js", "README.md"],
   "repository": {
     "type": "git",
     "url": "https://github.com/yemreak/vibe-coding.git",
@@ -23,6 +24,6 @@
   "author": "Yunus Emre Ak",
   "license": "Apache-2.0",
   "engines": {
-    "bun": ">=1.0.0"
+    "node": ">=16.0.0"
   }
 }

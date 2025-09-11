@@ -16,16 +16,26 @@ bun remove -g @yemreak/culture
 ## Usage
 
 ```
-culture - Git DNA reader
+culture - Learn from git history, preserve culture
+
+Git = Our history. Every commit is a lesson, every fix an anti-pattern.
+Like learning from ancestors, we learn from git history.
 
 Usage:
-  culture [dir]              Last 3 files
-  culture [dir] -n 5         Last 5 files
-  culture [dir] -c           Content only
-  
+  culture [path]        Show file/directory history
+  culture -h            Show this help
+
 Examples:
-  culture src/
-  culture . -n 10 -c
+  culture .                     # Project's last 20 commits
+  culture src/core/             # core directory history
+  culture src/core/auth.ts      # auth.ts file evolution
+
+What you'll see:
+  - Past decisions (why did we do it this way?)
+  - Anti-patterns (what did fixes correct?)
+  - Pattern evolution (what did refactors improve?)
+  - Culture DNA (recurring approaches)
+
 ```
 
 ## License
@@ -33,4 +43,4 @@ Examples:
 Apache-2.0
 
 ---
-Generated: 2025-09-09 15:17:25
+Generated: 2025-09-12 02:30:55
