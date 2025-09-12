@@ -1,9 +1,9 @@
 {
-  "name": "@yemreak/claude-extract",
-  "version": "2.0.1",
-  "description": "Extract user messages from Claude chat exports",
+  "name": "@yemreak/claude-compact",
+  "version": "1.0.0",
+  "description": "Compact and transfer conversations between Claude sessions",
   "bin": {
-    "claude-extract": "index.js"
+    "claude-compact": "index.js"
   },
   "files": [
     "index.js",
@@ -11,7 +11,7 @@
   ],
   "keywords": [
     "claude",
-    "extract",
+    "compact",
     "chat",
     "cli",
     "vibe-coding"
@@ -21,9 +21,9 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/yemreak/vibe-coding.git",
-    "directory": "packages/claude-extract"
+    "directory": "packages/claude-compact"
   },
-  "homepage": "https://github.com/yemreak/vibe-coding/tree/main/packages/claude-extract",
+  "homepage": "https://github.com/yemreak/vibe-coding/tree/main/packages/claude-compact",
   "bugs": "https://github.com/yemreak/vibe-coding/issues",
   "engines": {
     "node": ">=14.0.0"

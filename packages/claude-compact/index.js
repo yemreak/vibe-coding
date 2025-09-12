@@ -23,19 +23,19 @@ function extractConversation(input) {
 function main() {
 	const a = process.argv.slice(2)
 	if (a.includes("--help") || a.includes("-h")) {
-		console.log(`claude-extract - Transfer conversation between Claude sessions
+		console.log(`claude-compact - Compact and transfer conversations between Claude sessions
 
 Usage:
-  claude-extract      Extract all messages
-  claude-extract N    Extract Nth message
-  claude-extract -N   Extract Nth from end
-  claude-extract N:M  Extract range N to M
-  claude-extract :N   Extract first N messages
-  claude-extract -N:  Extract last N messages
+  claude-compact      Extract all messages
+  claude-compact N    Extract Nth message
+  claude-compact -N   Extract Nth from end
+  claude-compact N:M  Extract range N to M
+  claude-compact :N   Extract first N messages
+  claude-compact -N:  Extract last N messages
 
 Workflow:
   1. Current Claude: /export → Copy to clipboard
-  2. New Claude: claude-extract (in bash)
+  2. New Claude: claude-compact (in bash)
   3. Paste result → AI continues with context`)
 		process.exit(0)
 	}
