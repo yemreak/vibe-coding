@@ -1,0 +1,36 @@
+{
+  "name": "@yemreak/stt",
+  "version": "1.0.1",
+  "type": "module",
+  "description": "Speech to text with timestamps and speaker diarization",
+  "bin": {
+    "stt": "index.js"
+  },
+  "files": [
+    "index.js",
+    "README.md"
+  ],
+  "keywords": [
+    "stt",
+    "speech",
+    "text",
+    "transcription",
+    "elevenlabs",
+    "cli",
+    "vibe-coding"
+  ],
+  "author": "yemreak",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yemreak/vibe-coding.git",
+    "directory": "packages/stt"
+  },
+  "homepage": "https://github.com/yemreak/vibe-coding/tree/main/packages/stt",
+  "bugs": {
+    "url": "https://github.com/yemreak/vibe-coding/issues"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
