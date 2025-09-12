@@ -4,6 +4,12 @@ Tool collection for vibe coding workflow
 
 > Do not reinvent the wheel. I'm reinventing for you. 😅
 
+⚠️ **WARNING: EXPERIMENTAL PROJECT**
+- All packages are **UNDER ACTIVE DEVELOPMENT**
+- Breaking changes may occur at any time
+- Use at your own risk - APIs may change without notice
+- If you like a version, stick with it: `npm install @yemreak/tool@version`
+
 <!-- Auto-generated -->
 
 ## Tools
@@ -19,4 +25,4 @@ Tool collection for vibe coding workflow
 | [`fetch`](packages/fetch) | `@yemreak/fetch` | Web scraper with cache (Chrome headless + pandoc) |
 
 ---
-Generated: 2025-09-12 04:19:42
+Generated: 2025-09-12 04:27:44

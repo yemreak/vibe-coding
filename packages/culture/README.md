@@ -2,6 +2,10 @@
 
 Git culture discovery tool - learn patterns from code history
 
+⚠️ **EXPERIMENTAL**: This package is under active development. Breaking changes may occur at any time.
+
+If you like a version, stick with it: `npm install @yemreak/culture@version`
+
 ## Installation
 
 ```bash
@@ -38,4 +42,4 @@ What you'll see:
 Apache-2.0 ~ Yunus Emre Ak - yemreak
 
 ---
-Generated: 2025-09-12 02:45:50
+Generated: 2025-09-12 04:27:45

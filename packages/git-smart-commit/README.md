@@ -1,14 +1,10 @@
 # git-smart-commit
 
-Git commits with AI-generated messages using Claude
+Git commit with AI-generated messages
 
-## Requirements
+⚠️ **EXPERIMENTAL**: This package is under active development. Breaking changes may occur at any time.
 
-Requires [Anthropic Claude Code](https://github.com/anthropics/claude-code) CLI to be installed:
-
-```bash
-npm install -g @anthropic-ai/claude-code
-```
+If you like a version, stick with it: `npm install @yemreak/git-smart-commit@version`
 
 ## Installation
 
@@ -18,33 +14,19 @@ npm install -g @yemreak/git-smart-commit
 
 ## Usage
 
-```bash
-# Stage your changes first
-git add .
-
-# Generate commit message with Claude
-git-smart-commit
-# or use the short alias
-gitc
 ```
+gc - Git commit with AI-generated message
 
-The tool will:
-1. Analyze your staged changes
-2. Look at recent commit history for context
-3. Generate a clear, specific commit message using Claude
-4. Create the commit automatically
+Usage:
+  gc                    Create commit with AI message
 
-## Features
-
-- Analyzes git diff to understand changes
-- Follows conventional commit format
-- Creates concise, meaningful commit messages
-- Adds Claude as co-author
-- Works with any git repository
+Examples:
+  gc                    # Create commit with AI message
+```
 
 ## License
 
 Apache-2.0 ~ Yunus Emre Ak - yemreak
 
 ---
-Generated: 2025-09-12 02:45:49
+Generated: 2025-09-12 04:27:45

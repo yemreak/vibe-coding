@@ -2,7 +2,12 @@
 
 # Default
 help:
-	@echo "vibe-coding - Tool Collection"
+	@echo "vibe-coding - Experimental Tool Collection"
+	@echo ""
+	@echo "⚠️  WARNING: All packages are EXPERIMENTAL and UNDER DEVELOPMENT"
+	@echo "   Breaking changes may occur at any time"
+	@echo "   Use at your own risk - APIs may change without notice"
+	@echo "   If you like a version, stick with it: npm install @yemreak/tool@version"
 	@echo ""
 	@echo "Commands:"
 	@echo "  make readme                - Update main README"
@@ -75,6 +80,10 @@ readme-package:
 	echo "" >> "$$dir/README.md"; \
 	echo "$$desc" >> "$$dir/README.md"; \
 	echo "" >> "$$dir/README.md"; \
+	echo "⚠️ **EXPERIMENTAL**: This package is under active development. Breaking changes may occur at any time." >> "$$dir/README.md"; \
+	echo "" >> "$$dir/README.md"; \
+	echo "If you like a version, stick with it: \`npm install $$pkg@version\`" >> "$$dir/README.md"; \
+	echo "" >> "$$dir/README.md"; \
 	echo "## Installation" >> "$$dir/README.md"; \
 	echo "" >> "$$dir/README.md"; \
 	echo '```bash' >> "$$dir/README.md"; \
@@ -109,6 +118,7 @@ publish:
 		echo "Error: Package $(PKG) not found"; \
 		exit 1; \
 	fi
-	@echo "Publishing @yemreak/$(PKG)..."
+	@echo "⚠️  Publishing EXPERIMENTAL package @yemreak/$(PKG)..."
+	@echo "   Breaking changes may occur at any time"
 	@cd packages/$(PKG) && npm publish --access public
-	@echo "✓ Published @yemreak/$(PKG)"
+	@echo "✓ Published @yemreak/$(PKG) (experimental)"
