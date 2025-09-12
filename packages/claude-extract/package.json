@@ -3,9 +3,12 @@
   "version": "2.0.0",
   "description": "Extract user messages from Claude chat exports",
   "bin": {
-    "claude-extract": "./index.js"
+    "claude-extract": "index.js"
   },
-  "files": ["index.js", "README.md"],
+  "files": [
+    "index.js",
+    "README.md"
+  ],
   "keywords": [
     "claude",
     "extract",
