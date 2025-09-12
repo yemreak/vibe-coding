@@ -1,6 +1,6 @@
 {
   "name": "@yemreak/claude-extract",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Extract user messages from Claude chat exports",
   "bin": {
     "claude-extract": "index.js"

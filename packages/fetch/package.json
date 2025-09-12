@@ -1,15 +1,25 @@
 {
   "name": "@yemreak/fetch",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "Web scraper with cache (Chrome headless + pandoc)",
   "bin": {
     "fetch": "./index.ts"
   },
-  "files": ["index.ts", "README.md"],
+  "files": [
+    "index.ts",
+    "README.md"
+  ],
   "scripts": {
     "postinstall": "which pandoc || echo 'Warning: pandoc not found. Install with: brew install pandoc'"
   },
-  "keywords": ["fetch", "scraper", "chrome", "headless", "cli", "vibe-coding"],
+  "keywords": [
+    "fetch",
+    "scraper",
+    "chrome",
+    "headless",
+    "cli",
+    "vibe-coding"
+  ],
   "author": "yemreak",
   "license": "Apache-2.0",
   "repository": {
