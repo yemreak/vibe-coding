@@ -5,89 +5,6 @@ import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs'
 import { homedir } from 'os'
 import { join } from 'path'
 
-const CONFIG_DIR = join(homedir(), '.config', 'tts')
-const CONFIG_FILE = join(CONFIG_DIR, 'config.json')
-
-function loadConfig() {
-	if (existsSync(CONFIG_FILE)) {
-		try {
-			return JSON.parse(readFileSync(CONFIG_FILE, 'utf8'))
-		} catch (e) {
-			return {}
-		}
-	}
-	return {}
-}
-
-function saveConfig(config) {
-	if (!existsSync(CONFIG_DIR)) mkdirSync(CONFIG_DIR, { recursive: true })
-	writeFileSync(CONFIG_FILE, JSON.stringify(config, null, 2))
-}
-
-const config = loadConfig()
-const ELEVENLABS_API_KEY = process.env.ELEVENLABS_API_KEY || config.api_key
-const ELEVENLABS_DEFAULT_VOICE_ID = process.env.ELEVENLABS_DEFAULT_VOICE_ID || config.voice_id
-
-async function textToSpeech(text, voiceId, apiKey, modelId = "eleven_turbo_v2_5") {
-	const response = await fetch(
-		`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`,
-		{
-			method: "POST",
-			headers: {
-				"xi-api-key": apiKey,
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				text,
-				model_id: modelId,
-				output_format: "mp3_44100_128",
-			}),
-		}
-	)
-
-	if (!response.ok) {
-		const error = await response.text()
-		throw new Error(`Text-to-speech failed: ${error}`)
-	}
-
-	const audioData = await response.arrayBuffer()
-	return Buffer.from(audioData)
-}
-
-async function listVoices(apiKey) {
-	const response = await fetch("https://api.elevenlabs.io/v1/voices", {
-		headers: { "xi-api-key": apiKey },
-	})
-
-	if (!response.ok) {
-		const error = await response.text()
-		throw new Error(`Failed to list voices: ${error}`)
-	}
-
-	const data = await response.json()
-	return data.voices
-}
-
-async function playAudio(audioBuffer) {
-	return new Promise((resolve, reject) => {
-		const playProcess = spawn('play', ['-t', 'mp3', '-q', '-'], {
-			stdin: 'pipe',
-			stdout: 'ignore',
-			stderr: 'ignore'
-		})
-
-		playProcess.stdin.write(audioBuffer)
-		playProcess.stdin.end()
-
-		playProcess.on('close', code => {
-			if (code === 0) resolve()
-			else reject(new Error(`Play exited with code ${code}`))
-		})
-
-		playProcess.on('error', reject)
-	})
-}
-
 function showUsage() {
 	console.log(`tts - Text to speech conversion
 
@@ -182,6 +99,89 @@ async function main() {
 
 	if (isPiped) process.stdout.write(audioBuffer)
 	else if (!isQuiet) await playAudio(audioBuffer)
+}
+
+const CONFIG_DIR = join(homedir(), '.config', 'tts')
+const CONFIG_FILE = join(CONFIG_DIR, 'config.json')
+
+function loadConfig() {
+	if (existsSync(CONFIG_FILE)) {
+		try {
+			return JSON.parse(readFileSync(CONFIG_FILE, 'utf8'))
+		} catch (e) {
+			return {}
+		}
+	}
+	return {}
+}
+
+function saveConfig(config) {
+	if (!existsSync(CONFIG_DIR)) mkdirSync(CONFIG_DIR, { recursive: true })
+	writeFileSync(CONFIG_FILE, JSON.stringify(config, null, 2))
+}
+
+const config = loadConfig()
+const ELEVENLABS_API_KEY = process.env.ELEVENLABS_API_KEY || config.api_key
+const ELEVENLABS_DEFAULT_VOICE_ID = process.env.ELEVENLABS_DEFAULT_VOICE_ID || config.voice_id
+
+async function textToSpeech(text, voiceId, apiKey, modelId = "eleven_turbo_v2_5") {
+	const response = await fetch(
+		`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`,
+		{
+			method: "POST",
+			headers: {
+				"xi-api-key": apiKey,
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				text,
+				model_id: modelId,
+				output_format: "mp3_44100_128",
+			}),
+		}
+	)
+
+	if (!response.ok) {
+		const error = await response.text()
+		throw new Error(`Text-to-speech failed: ${error}`)
+	}
+
+	const audioData = await response.arrayBuffer()
+	return Buffer.from(audioData)
+}
+
+async function listVoices(apiKey) {
+	const response = await fetch("https://api.elevenlabs.io/v1/voices", {
+		headers: { "xi-api-key": apiKey },
+	})
+
+	if (!response.ok) {
+		const error = await response.text()
+		throw new Error(`Failed to list voices: ${error}`)
+	}
+
+	const data = await response.json()
+	return data.voices
+}
+
+async function playAudio(audioBuffer) {
+	return new Promise((resolve, reject) => {
+		const playProcess = spawn('play', ['-t', 'mp3', '-q', '-'], {
+			stdin: 'pipe',
+			stdout: 'ignore',
+			stderr: 'ignore'
+		})
+
+		playProcess.stdin.write(audioBuffer)
+		playProcess.stdin.end()
+
+		playProcess.on('close', code => {
+			if (code === 0) resolve()
+			else reject(new Error(`Play exited with code ${code}`))
+		})
+
+		playProcess.on('error', reject)
+	})
 }
 
 main().catch(console.error)
