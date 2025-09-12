@@ -10,6 +10,7 @@ Tool collection for vibe coding workflow
 
 | Tool | Package | Description |
 |------|---------|-------------|
+| [`tts`](packages/tts) | `@yemreak/tts` | Text to speech conversion using ElevenLabs API |
 | [`culture`](packages/culture) | `@yemreak/culture` | Git culture discovery tool - learn patterns from code history |
 | [`claude-extract`](packages/claude-extract) | `@yemreak/claude-extract` | Extract user messages from Claude chat exports |
 | [`gc`](packages/gc) | `@yemreak/gc` | Git commits with AI-generated messages |
@@ -17,4 +18,4 @@ Tool collection for vibe coding workflow
 | [`fetch`](packages/fetch) | `@yemreak/fetch` | Web scraper with cache (Chrome headless + pandoc) |
 
 ---
-Generated: 2025-09-12 02:45:49
+Generated: 2025-09-12 03:02:44

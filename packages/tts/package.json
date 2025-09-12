@@ -1,0 +1,28 @@
+{
+  "name": "@yemreak/tts",
+  "version": "1.0.0",
+  "description": "Text to speech conversion using ElevenLabs API",
+  "type": "module",
+  "bin": {
+    "tts": "./index.js"
+  },
+  "files": ["index.js", "README.md"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yemreak/vibe-coding.git",
+    "directory": "packages/tts"
+  },
+  "keywords": [
+    "tts",
+    "text-to-speech",
+    "elevenlabs",
+    "audio",
+    "voice",
+    "synthesis"
+  ],
+  "author": "Yunus Emre Ak",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
