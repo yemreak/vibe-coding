@@ -1,6 +1,6 @@
 {
   "name": "@yemreak/claude-compact",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Compact and transfer conversations between Claude sessions",
   "bin": {
     "claude-compact": "index.js"
