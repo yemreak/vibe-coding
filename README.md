@@ -16,6 +16,7 @@ Tool collection for vibe coding workflow
 
 | Tool | Package | Description |
 |------|---------|-------------|
+| [`hue`](packages/hue) | `@yemreak/hue` | Control Philips Hue lights via CLI - voice/AI ready |
 | [`stt`](packages/stt) | `@yemreak/stt` | Speech to text with timestamps and speaker diarization |
 | [`tts`](packages/tts) | `@yemreak/tts` | Text to speech conversion using ElevenLabs API |
 | [`culture`](packages/culture) | `@yemreak/culture` | Git culture discovery tool - learn patterns from code history |
@@ -25,4 +26,4 @@ Tool collection for vibe coding workflow
 | [`fetch`](packages/fetch) | `@yemreak/fetch` | Web scraper with cache (Chrome headless + pandoc) |
 
 ---
-Generated: 2025-09-12 15:55:40
+Generated: 2025-10-08
