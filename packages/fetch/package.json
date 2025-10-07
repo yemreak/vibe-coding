@@ -1,7 +1,7 @@
 {
   "name": "@yemreak/fetch",
-  "version": "1.0.5",
-  "description": "Web scraper with cache (Chrome headless + pandoc)",
+  "version": "1.1.0",
+  "description": "Web scraper with llms.txt + puppeteer fallback",
   "bin": {
     "fetch": "./index.ts"
   },
@@ -9,17 +9,18 @@
     "index.ts",
     "README.md"
   ],
-  "scripts": {
-    "postinstall": "which pandoc || echo 'Warning: pandoc not found. Install with: brew install pandoc'"
-  },
   "keywords": [
     "fetch",
     "scraper",
-    "chrome",
-    "headless",
+    "llms-txt",
+    "puppeteer",
+    "documentation",
     "cli",
     "vibe-coding"
   ],
+  "dependencies": {
+    "puppeteer": "^23.0.0"
+  },
   "author": "yemreak",
   "license": "Apache-2.0",
   "repository": {
@@ -33,7 +34,6 @@
     "bun": ">=1.0.0"
   },
   "requirements": {
-    "pandoc": "brew install pandoc",
-    "chrome": "Built-in on macOS"
+    "chrome": "Chromium (puppeteer auto-downloads)"
   }
 }
