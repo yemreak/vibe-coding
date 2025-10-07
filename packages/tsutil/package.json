@@ -1,6 +1,6 @@
 {
   "name": "@yemreak/tsutil",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "TypeScript code analysis tools (AST-based)",
   "bin": {
     "tsutil": "./index.ts"

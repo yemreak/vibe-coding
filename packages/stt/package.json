@@ -1,6 +1,6 @@
 {
   "name": "@yemreak/stt",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "type": "module",
   "description": "Speech to text with timestamps and speaker diarization",
   "bin": {

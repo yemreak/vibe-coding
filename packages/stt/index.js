@@ -6,47 +6,30 @@ import { tmpdir, homedir } from 'os'
 import { join } from 'path'
 
 function showUsage() {
-	console.log(`stt - Speech to text with timestamps and speaker diarization
+	console.log(`Usage: stt [OPTIONS] <audio/video_file>
 
-Usage:
-  stt <audio/video_file>             Transcribe text only (default)
-  stt --words <file>                 Output word-level timestamps with tabs
-  stt --json <file>                  Output full JSON with all metadata
-  stt config api_key <key>           Set ElevenLabs API key
-  stt -h                             Show this help
+BEHAVIOURS:
+  # Basic transcription:
+  stt audio.mp3
+  → Hello, this is the transcribed text
+  cat audio.mp3 | stt
+  → Hello world
 
-Configuration:
-  Config file: ~/.config/stt/config.json
-  Environment variables:
-    ELEVENLABS_API_KEY               API key for ElevenLabs
+  # Word-level timestamps:
+  stt --words audio.mp3
+  → 00:00.119-00:00.259	Hello	word	speaker_0
 
-Output formats:
-  text (default)                     Plain text transcription
-  timestamp\ttext\ttype\tspeaker         Word-level with tabs (--words)
-  JSON                               Full metadata (--json)
+  # JSON export:
+  stt --json audio.mp3
+  → {"text": "Hello world", "words": [...]}
 
-Examples:
-  stt config api_key sk_123          # Save API key
-  stt audio.mp3                      # Plain text output
-  stt --words video.mp4              # 00:00.119-00:00.259\tHello\tword\tspeaker_0
-  stt --json audio.mp3               # Full JSON with all metadata
-  cat audio.mp3 | stt                # From stdin
+  # API key config:
+  stt config api_key sk_your_key
+  → API key saved to ~/.config/stt/config.json
 
-Pipeline examples:
-  # Video to audio to text:
-  yt-dlp -x --audio-format mp3 $VIDEO_URL -o - | stt -
-
-  # Extract speaker 1's words only:
-  stt --words meeting.mp4 | grep speaker_1 | cut -f2
-
-  # Transcribe and clean garbage:
-  stt podcast.mp3 | gc - | tee transcript.txt
-
-  # Process multiple audio files:
-  fd -e mp3 . | xargs -I{} sh -c 'stt {} > {}.txt'
-  
-  # Word-level analysis with timestamps:
-  stt --words lecture.mp4 | awk -F'\t' '$3=="word" {print $2}' | sort | uniq -c`)
+ENVIRONMENT:
+  ELEVENLABS_API_KEY
+  Config: ~/.config/stt/config.json`)
 	process.exit(2)
 }
 

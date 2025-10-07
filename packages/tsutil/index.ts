@@ -522,48 +522,34 @@ async function main() {
 	const args = process.argv.slice(2)
 
 	if (!args[0] || args.includes("-h") || args.includes("--help")) {
-		console.log(`tsutil - TypeScript code analysis tools
+		console.log(`tsutil - TypeScript code analysis
 
-Usage:
-  tsutil outline <file>                    Show file outline (all declarations) 
-  tsutil outline --exports <file>          Show only exported declarations 
-  tsutil outline -                         Read file list from stdin 
-  tsutil read <function> [-d depth]        Read function with dependencies 
-  tsutil rename <old> <new>                Rename symbol across all files 
-  tsutil move <old_path> <new_path>        Move file and update imports 
-  tsutil check [file]                      Type check files (stdin pipe supported)
+BEHAVIOURS:
+  # File analysis:
+  tsutil outline src/auth.ts
+  → login:10:25:func:true
+  tsutil outline --exports src/lib.ts
+  → processData:5:20:func:true
+  fd -e ts | tsutil outline -
+  → src/auth.ts:login:10:25:func:true
 
-Output:
-  type:name:startLine:endLine:visibility (func, var, class, interface, type, enum)
+  # Read function:
+  tsutil read processData
+  → processData:src/lib.ts:10:25
+  tsutil read main -d 2
+  → main:src/app.ts:5:30
 
-Examples:
-  tsutil outline lib.ts                  # Single file
-  tsutil outline --exports lib.ts        # Only exports
-  fd "*.ts" | tsutil outline -           # Multiple files from stdin
-  tsutil outline lib.ts | grep ^func:   # Only functions
-  tsutil outline lib.ts | grep :export$ # Only exported items
-  tsutil outline lib.ts | grep :local$  # Only local items
-  tsutil read main                       # Read main function
-  tsutil read main -d 1                  # Read main + dependencies
-  tsutil read main | grep "^code:39"    # Get specific line
-  tsutil read main | grep "^func:" | cut -d: -f2  # Function names
-  tsutil rename userId customerId        # Rename symbol
-  tsutil move src/old.ts src/new.ts      # Move file
-  tsutil check                            # Check all TypeScript files
-  tsutil check src/main.ts                # Check specific file
+  # Refactoring:
+  tsutil rename userId customerId
+  → src/auth.ts (3 changes)
+  tsutil move src/old.ts lib/new.ts
+  → moved src/old.ts → lib/new.ts
 
-Pipeline:
-  fd -e ts | tsutil outline -                           # All TypeScript files
-  fd -e ts src/funcs | tsutil outline - | grep ^func:   # All functions in funcs/
-  tsutil outline lib.ts | grep :export$ | cut -d: -f2   # Export names only
-  tsutil outline lib.ts | awk -F: "$5==\\"local\\""      # Local declarations
-  fd -e ts | tsutil outline - | grep ^var: | wc -l      # Count all variables
-  tsutil read main -d 1 | grep "^func:" | cut -d: -f3   # Get file paths
-  tsutil read main | grep "^code:" | cut -d: -f3-       # Extract code only
-  tsutil read main -d 2 | grep "^func:" | uniq          # All unique functions
-  tsutil check | grep TS2345              # Find type mismatch errors
-  tsutil check | cut -d: -f1 | uniq       # Files with errors
-  fd -e ts . src/interface/bin/ | tsutil check          # Directory-specific check`)
+  # Type check:
+  tsutil check
+  tsutil check --bun src/main.ts
+  fd -e ts . src/ | tsutil check
+  → src/app.ts:42:5:TS2345:Type 'string' not assignable to 'number'`)
 		process.exit(0)
 	}
 
