@@ -11,6 +11,7 @@ Tool collection for vibe coding workflow
 | Tool | Package | Description |
 |------|---------|-------------|
 | [`hue`](packages/hue) | `@yemreak/hue` | Control Philips Hue lights via CLI - voice/AI ready |
+| [`chrome-cdp`](packages/chrome-cdp) | `@yemreak/chrome-cdp` | Chrome DevTools Protocol CLI - automation/testing/debugging |
 | [`youtube-transcript`](packages/youtube-transcript) | `@yemreak/youtube-transcript` | YouTube transcript extractor - text/timestamps/json |
 | [`fetch`](packages/fetch) | `@yemreak/fetch` | Web scraper with llms.txt + puppeteer fallback |
 | [`stt`](packages/stt) | `@yemreak/stt` | Speech to text with timestamps and speaker diarization |
