@@ -1,0 +1,37 @@
+{
+  "name": "@yemreak/hue",
+  "version": "0.1.0",
+  "description": "Control Philips Hue lights via CLI - voice/AI ready",
+  "bin": {
+    "hue": "./index.ts"
+  },
+  "files": [
+    "index.ts",
+    "README.md"
+  ],
+  "keywords": [
+    "philips-hue",
+    "hue",
+    "smart-home",
+    "iot",
+    "voice-control",
+    "ai-control",
+    "cli",
+    "vibe-coding"
+  ],
+  "author": "yemreak",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yemreak/vibe-coding.git",
+    "directory": "packages/hue"
+  },
+  "homepage": "https://github.com/yemreak/vibe-coding/tree/main/packages/hue",
+  "bugs": "https://github.com/yemreak/vibe-coding/issues",
+  "engines": {
+    "bun": ">=1.0.0"
+  },
+  "requirements": {
+    "hue-bridge": "Philips Hue Bridge on local network"
+  }
+}
