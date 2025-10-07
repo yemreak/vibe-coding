@@ -1,0 +1,34 @@
+{
+  "name": "@yemreak/youtube-transcript",
+  "version": "0.1.0",
+  "description": "YouTube transcript extractor - text/timestamps/json",
+  "bin": {
+    "yt": "./index.ts"
+  },
+  "files": [
+    "index.ts",
+    "README.md"
+  ],
+  "dependencies": {
+    "youtube-transcript-plus": "^1.0.4"
+  },
+  "keywords": [
+    "youtube",
+    "transcript",
+    "subtitles",
+    "cli",
+    "vibe-coding"
+  ],
+  "author": "yemreak",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yemreak/vibe-coding.git",
+    "directory": "packages/youtube-transcript"
+  },
+  "homepage": "https://github.com/yemreak/vibe-coding/tree/main/packages/youtube-transcript",
+  "bugs": "https://github.com/yemreak/vibe-coding/issues",
+  "engines": {
+    "bun": ">=1.0.0"
+  }
+}
