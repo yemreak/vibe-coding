@@ -1,12 +1,9 @@
 {
   "name": "@yemreak/chrome-cdp",
   "version": "0.1.0",
-  "description": "Chrome DevTools Protocol CLI - automation/testing/debugging",
-  "bin": {
-    "chrome-cdp": "./index.ts"
-  },
+  "description": "MOVED to https://github.com/yemreak/chrome-cdp-cli",
+  "deprecated": "This package has moved to its own repository: https://github.com/yemreak/chrome-cdp-cli",
   "files": [
-    "index.ts",
     "README.md"
   ],
   "keywords": [
@@ -17,22 +14,14 @@
     "testing",
     "debugging",
     "screenshot",
-    "cli",
-    "vibe-coding"
+    "cli"
   ],
   "author": "yemreak",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yemreak/vibe-coding.git",
-    "directory": "packages/chrome-cdp"
+    "url": "https://github.com/yemreak/chrome-cdp-cli.git"
   },
-  "homepage": "https://github.com/yemreak/vibe-coding/tree/main/packages/chrome-cdp",
-  "bugs": "https://github.com/yemreak/vibe-coding/issues",
-  "engines": {
-    "bun": ">=1.0.0"
-  },
-  "requirements": {
-    "chrome": "Google Chrome browser"
-  }
+  "homepage": "https://github.com/yemreak/chrome-cdp-cli",
+  "bugs": "https://github.com/yemreak/chrome-cdp-cli/issues"
 }
