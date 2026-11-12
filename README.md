@@ -1,5 +1,7 @@
 # vibe-coding
 
+> **[optionOS](https://optionos.app/)** — Show AI what you mean. Stay in your flow. <!-- optionos -->
+
 Tool collection for vibe coding workflow
 
 > Do not reinvent the wheel. I'm reinventing for you. 😅
